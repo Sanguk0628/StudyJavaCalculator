@@ -1,34 +1,44 @@
 package newcalendar;
+import java.util.Calendar;
+import java.time.*;
 
 public class AboutCalendar {
 	private static final int[] MAXDAYS = {31,28,31,30,31,30,31,31,30,31,30,31};
 	
+	//최대 일수 구하기
 	public int getMaxOfMonth(int month) {
 		
 		return MAXDAYS[month-1];
 	}
 	
 	
-	//시작 요일 구하기 -> 그레고리력
-	public int getWeekDay(int year, int month, int day) {
+	//시작 요일 구하기
+	public int getWeekDay(int year, int month) {
 		
+        Calendar calendar = Calendar.getInstance();		
+        calendar.set(year,month-1,1);
 		
-		
-		return 0;
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		System.out.println(calendar.get(Calendar.YEAR));
+		System.out.println(calendar.get(Calendar.MONTH));
+		System.out.println(calendar.get(Calendar.DATE));
+
+		System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
+
+		// 1. 일, 2. 월 ,,,
+		return dayOfWeek-1;
 	}
 	
 	
-	
 	public void printCalendar(int year, int month) {
-
+		
+		//윤달 처리
 		if((year % 4 == 0) && ((year % 100 != 0) || (year % 400 != 0))) {
 			MAXDAYS[1] = 29;
 		}
 		
 		//get WeekDay automatically
-		int weekday = getWeekDay(year, month, 1);
-		
-		
+		int dayOfWeek = getWeekDay(year, month);
 		
 		//printout
 		System.out.printf(" << %4d년 %3d월 >>",year, month);
@@ -39,12 +49,12 @@ public class AboutCalendar {
 		int maxOfDays = getMaxOfMonth(month);
 		
 		// print blank line
-		for (int j = 0; j < weekday; j++) {
+		for (int j = 0; j < dayOfWeek; j++) {
 			System.out.printf("   ");
 		}
 		
 		// print first line
-		int count = 7 - weekday;
+		int count = 7 - dayOfWeek;
 		int delim = count;
 		
 		// 수 3 카ㅣ운트 4
